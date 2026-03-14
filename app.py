@@ -55,7 +55,12 @@ st.title("Dashboard for real time credit card fraud detection")
 # Load Data
 # ==============================
 
-df = pd.read_csv("data/creditcard.csv")
+@st.cache_data
+def load_data():
+    url = "https://storage.googleapis.com/download.tensorflow.org/data/creditcard.csv"
+    return pd.read_csv(url)
+
+df = load_data()
 model = joblib.load("models/fraud_model.pkl")
 
 df["Hour"] = (df["Time"] // 3600) % 24
